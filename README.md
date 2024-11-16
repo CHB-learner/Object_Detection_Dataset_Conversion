@@ -10,6 +10,7 @@
 
 ## 使用教程
 1.右侧Releases下载软件<br>
+或者，[百度网盘](https://pan.baidu.com/s/1991yaLYmboi-jhDIIQVvuw?pwd=bxuy)<br>
 下载Object_Detection_Dataset_Conversion_win_v1.0.zip傻瓜式使用，test_data.zip提供一部分测试数据。<br>
 ![image](https://github.com/user-attachments/assets/4d838a47-d02f-4be8-9c8e-b0726a9cec35)
 
