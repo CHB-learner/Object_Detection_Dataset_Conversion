@@ -77,41 +77,87 @@ def VOC2YOLO(input_folder, output_folder):
 
         return filename, objects
 
+    ''' # 不支持带有xml声明的
+        def parseXmlFilse(voc_dir, save_dir):
+            assert os.path.exists(voc_dir), "ERROR {} does not exists".format(voc_dir)
+            if os.path.exists(save_dir):
+                shutil.rmtree(save_dir)
+            os.makedirs(save_dir)
 
+            xml_files = [os.path.join(voc_dir, i) for i in os.listdir(voc_dir) if os.path.splitext(i)[-1] == '.xml']
+            for xml_file in xml_files:
+                with open(xml_file) as fid:
+                    xml_str = fid.read()
+                xml = etree.fromstring(xml_str)
+                info_dict = parse_xml_to_dict(xml)
+                parser_info(info_dict, only_cat=True)
+
+            with open(output_folder + "/classes.txt", 'w') as classes_file:
+                for cat in sorted(category_set):
+                    classes_file.write("{}\n".format(cat))
+
+            class_indices = dict((v, k) for k, v in enumerate(sorted(category_set)))
+
+            xml_files = tqdm(xml_files)
+            for xml_file in xml_files:
+                with open(xml_file) as fid:
+                    xml_str = fid.read()
+                xml = etree.fromstring(xml_str)
+                info_dict = parse_xml_to_dict(xml)
+                filename, objects = parser_info(info_dict, only_cat=False, class_indices=class_indices)
+                if len(objects) != 0:
+                    global bbox_nums
+                    bbox_nums += len(objects)
+                    with open(save_dir + "/" + filename.split(".")[0] + ".txt", 'w') as f:
+                        for obj in objects:
+                            f.write(
+                                "{} {:.5f} {:.5f} {:.5f} {:.5f}\n".format(obj[0], obj[1][0], obj[1][1], obj[1][2], obj[1][3]))
+    '''
     def parseXmlFilse(voc_dir, save_dir):
         assert os.path.exists(voc_dir), "ERROR {} does not exists".format(voc_dir)
         if os.path.exists(save_dir):
             shutil.rmtree(save_dir)
         os.makedirs(save_dir)
 
+        # 获取所有 XML 文件路径
         xml_files = [os.path.join(voc_dir, i) for i in os.listdir(voc_dir) if os.path.splitext(i)[-1] == '.xml']
-        for xml_file in xml_files:
-            with open(xml_file) as fid:
-                xml_str = fid.read()
-            xml = etree.fromstring(xml_str)
-            info_dict = parse_xml_to_dict(xml)
-            parser_info(info_dict, only_cat=True)
 
+        # 第一次遍历，统计类别信息
+        for xml_file in xml_files:
+            with open(xml_file, "rb") as fid:  # 使用二进制模式打开文件
+                xml_str = fid.read()
+            xml = etree.fromstring(xml_str)  # 解析字节流为 XML 对象
+            info_dict = parse_xml_to_dict(xml)  # 转换为字典
+            parser_info(info_dict, only_cat=True)  # 提取类别信息
+
+        # 写入类别文件
         with open(output_folder + "/classes.txt", 'w') as classes_file:
             for cat in sorted(category_set):
                 classes_file.write("{}\n".format(cat))
 
+        # 生成类别索引映射
         class_indices = dict((v, k) for k, v in enumerate(sorted(category_set)))
 
-        xml_files = tqdm(xml_files)
+        # 第二次遍历，生成 YOLO 格式的标注文件
+        xml_files = tqdm(xml_files)  # 加入进度条显示
         for xml_file in xml_files:
-            with open(xml_file) as fid:
+            with open(xml_file, "rb") as fid:  # 使用二进制模式打开文件
                 xml_str = fid.read()
-            xml = etree.fromstring(xml_str)
-            info_dict = parse_xml_to_dict(xml)
-            filename, objects = parser_info(info_dict, only_cat=False, class_indices=class_indices)
+            xml = etree.fromstring(xml_str)  # 解析字节流为 XML 对象
+            info_dict = parse_xml_to_dict(xml)  # 转换为字典
+            filename, objects = parser_info(info_dict, only_cat=False, class_indices=class_indices)  # 提取信息
+
             if len(objects) != 0:
                 global bbox_nums
-                bbox_nums += len(objects)
+                bbox_nums += len(objects)  # 累计标注框数量
+                # 写入 YOLO 格式标注文件
                 with open(save_dir + "/" + filename.split(".")[0] + ".txt", 'w') as f:
                     for obj in objects:
                         f.write(
                             "{} {:.5f} {:.5f} {:.5f} {:.5f}\n".format(obj[0], obj[1][0], obj[1][1], obj[1][2], obj[1][3]))
+
+
+
 
     def copy_images(image_path, output_image_path):
         # 检查输入目录是否存在
@@ -152,6 +198,6 @@ def VOC2YOLO(input_folder, output_folder):
 
 
 if __name__ == '__main__':
-    input_folder = './test_data/input/voc/'
+    input_folder = './test_data/input/SHIP_VOC/'
     output_folder = './test_data/output/VOC2YOLO/'
     VOC2YOLO(input_folder, output_folder)
