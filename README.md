@@ -2,7 +2,7 @@
 
 
 ## 软件项目进度
-[√] COCO，VOC，YOLO格式数据集互相转换<br>
+[√] COCO，VOC，YOLO格式数据集互相转换，以及DOTA转YOLO<br>
 [ ] 数据集划分<br>
 [ ] 数据集增强<br>
 [ ] UI训练目标检测模型<br>
