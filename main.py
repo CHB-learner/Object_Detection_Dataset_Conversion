@@ -12,6 +12,7 @@ from trans_function.COCO_split import COCO_SPLIT
 from trans_function.VOC_split import VOC_SPLIT
 from trans_function.DOTA2YOLO import DOTA2YOLO
 import os
+import datetime
 
 YOLO_format = """ 
 示例：
@@ -62,6 +63,8 @@ voc
     ├── train_30090.jpg
     ...
 """
+
+
 DOTA_format = """
 示例：
 （作为输入时，带*的目录请保证名称一样）
@@ -126,7 +129,7 @@ def datas_split_select_output_folder():
 
 
 def convert(input_format, output_format, input_folder, output_folder):
-    if not input_format or not output_format or not input_folder or not output_folder:
+    if not input_format or not output_format or not input_folder or not output_folder or input_format == 'None' or output_format == 'None':
         messagebox.showwarning("警告", "所有字段都必须填写！")  # 弹出警告框
         return
 
@@ -138,6 +141,13 @@ def convert(input_format, output_format, input_folder, output_folder):
         messagebox.showinfo("错误", "输入和输出路径一致")
         return
     
+    # 输出路径
+    now = datetime.datetime.now()
+    folder_name = now.strftime("%Y-%m-%d_%H-%M-%S")
+    out_put_name = f'{input_format}2{output_format}__{folder_name}'
+    output_folder = os.path.join(output_folder,out_put_name)
+
+
     if input_format == 'YOLO':
         if output_format == 'COCO':
             try:
@@ -388,8 +398,6 @@ test_data_split_input_entry.grid(row=7, column=4, padx=0, pady=0)
 # 数据集划分
 datasplit_button = tk.Button(top, text="数据集划分", command=lambda: data_split(data_split_input_folder_var.get(), data_split_output_folder_var.get(), train_data_split_input_entry.get(), val_data_split_input_entry.get(), test_data_split_input_entry.get()))
 datasplit_button.grid(row=7, column=1, columnspan=2, padx=10, pady=20)
-
-
 
 
 
