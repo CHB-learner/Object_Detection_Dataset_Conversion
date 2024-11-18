@@ -190,6 +190,8 @@ def DOTA2YOLO(dataset_dir,output_folder):
     print(f"convert dataset: {Path(dataset_dir).name} dota label to yolo Success!!!")
     print(f"convert label is in folder labels")
     copy_images(image_dir,save_image_dir)
+    
+    return
 
 
 
