@@ -245,7 +245,7 @@ def data_split(input_dir,output_dir,train,val,test):
             COCO_SPLIT(input_dir,output_dir,train,val,test)
             messagebox.showinfo("完成", "COCO数据集划分完成")
         except:
-            messagebox.showinfo("错误", "输入数据格式不规范")
+            messagebox.showinfo("错误", "COCO输入数据格式不规范")
         return
 
     if "labels" in os.listdir(input_dir) and "images" in os.listdir(input_dir) and "classes.txt" in os.listdir(input_dir):
@@ -254,7 +254,7 @@ def data_split(input_dir,output_dir,train,val,test):
             YOLO_SPLIT(input_dir,output_dir,train,val,test)
             messagebox.showinfo("完成", "YOLO数据集划分完成")
         except:
-            messagebox.showinfo("错误", "输入数据格式不规范")
+            messagebox.showinfo("错误", "YOLO输入数据格式不规范")
         return
 
     if "Annotations" in os.listdir(input_dir) and "JPEGImages" in os.listdir(input_dir):
@@ -263,12 +263,12 @@ def data_split(input_dir,output_dir,train,val,test):
             VOC_SPLIT(input_dir,output_dir,train,val,test)
             messagebox.showinfo("完成", "VOC数据集划分完成")
         except:
-            messagebox.showinfo("错误", "输入数据格式不规范")
+            messagebox.showinfo("错误", "VOC输入数据格式不规范")
         return
 
 
 
-    messagebox.showinfo("错误", "数据集格式有误，未正确识别。")
+    messagebox.showinfo("错误", "未正确识别数据集格式")
     return
 
 
