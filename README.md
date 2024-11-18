@@ -3,7 +3,7 @@
 
 ## 软件项目进度
 [√] COCO，VOC，YOLO格式数据集互相转换，以及DOTA转YOLO<br>
-[ ] 数据集划分<br>
+[√] 数据集划分<br>
 [ ] 数据集增强<br>
 [ ] UI训练目标检测模型<br>
 
@@ -15,12 +15,14 @@
 ![image](https://github.com/user-attachments/assets/4d838a47-d02f-4be8-9c8e-b0726a9cec35)
 
 2.直接双击打开 “目标检测数据集转换_win_v1.0.exe” 使用
-![image](https://github.com/user-attachments/assets/69219aaf-88c3-4c28-aeb1-958e0c828f20)
+<img width="853" alt="image" src="https://github.com/user-attachments/assets/c010b024-ed50-4ac7-a42e-5cac18b24baf">
+
 
 ## 注意：
 ## ①路径中请勿出现中文
 ## ②带*请保持文件/目录名一致。
-
+<br>
+<br>
 
 
 
