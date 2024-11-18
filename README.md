@@ -1,4 +1,4 @@
-# 目标检测数据集格式转换（COCO,YOLO,VOC）
+# 目标检测数据集格式转换（COCO,YOLO,VOC,DOTA2YOLO）
 
 
 ## 软件项目进度
@@ -10,8 +10,8 @@
 
 ## 使用教程
 1.右侧Releases下载软件<br>
-或者，[百度网盘](https://pan.baidu.com/s/1991yaLYmboi-jhDIIQVvuw?pwd=bxuy)<br>
-下载Object_Detection_Dataset_Conversion_win_v1.0.zip傻瓜式使用，test_data.zip提供一部分测试数据。<br>
+或者，[百度网盘](https://pan.baidu.com/s/1mMuxhks_btbMiGHgbAS7uA?pwd=xeu4)<br>
+下载Object_Detection_Dataset_Conversion傻瓜式使用，test_data.zip提供一部分测试数据。<br>
 ![image](https://github.com/user-attachments/assets/4d838a47-d02f-4be8-9c8e-b0726a9cec35)
 
 2.直接双击打开 “目标检测数据集转换_win_v1.0.exe” 使用
