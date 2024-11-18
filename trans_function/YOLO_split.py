@@ -14,6 +14,8 @@ def YOLO_SPLIT(input_dir, output_dir, train, val, test):
     out_put_name = f'YOLO_{train}_{val}_{test}__{folder_name}'
     output_dir = os.path.join(output_dir, out_put_name)
     
+    shutil.copy(os.path.join(input_dir,'classes.txt'), output_dir)
+
     # 定义训练集、验证集和测试集比例
     train_ratio = train
     valid_ratio = val

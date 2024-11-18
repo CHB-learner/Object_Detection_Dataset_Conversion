@@ -1,10 +1,8 @@
 import os
 import json
-import argparse
-import sys
+
 import shutil
 from lxml import etree
-from tqdm import tqdm
 global category_set,image_set,bbox_nums
 
 category_set = set()
@@ -98,7 +96,7 @@ def VOC2YOLO(input_folder, output_folder):
 
             class_indices = dict((v, k) for k, v in enumerate(sorted(category_set)))
 
-            xml_files = tqdm(xml_files)
+            xml_files = (xml_files)
             for xml_file in xml_files:
                 with open(xml_file) as fid:
                     xml_str = fid.read()
@@ -115,9 +113,9 @@ def VOC2YOLO(input_folder, output_folder):
     '''
     def parseXmlFilse(voc_dir, save_dir):
         assert os.path.exists(voc_dir), "ERROR {} does not exists".format(voc_dir)
-        if os.path.exists(save_dir):
-            shutil.rmtree(save_dir)
-        os.makedirs(save_dir)
+        if not os.path.exists(save_dir):
+            # shutil.rmtree(save_dir)
+            os.makedirs(save_dir)
 
         # 获取所有 XML 文件路径
         xml_files = [os.path.join(voc_dir, i) for i in os.listdir(voc_dir) if os.path.splitext(i)[-1] == '.xml']
@@ -139,7 +137,7 @@ def VOC2YOLO(input_folder, output_folder):
         class_indices = dict((v, k) for k, v in enumerate(sorted(category_set)))
 
         # 第二次遍历，生成 YOLO 格式的标注文件
-        xml_files = tqdm(xml_files)  # 加入进度条显示
+        # xml_files = xml_files  # 加入进度条显示
         for xml_file in xml_files:
             with open(xml_file, "rb") as fid:  # 使用二进制模式打开文件
                 xml_str = fid.read()

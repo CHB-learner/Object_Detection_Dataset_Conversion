@@ -2,9 +2,6 @@ from pycocotools.coco import COCO
 import os
 from lxml import etree, objectify
 import shutil
-from tqdm import tqdm
-import sys
-import argparse
 
 
 
@@ -57,15 +54,16 @@ def COCO2VOC(input_folder, output_folder):
 
     # 利用cocoAPI从json中加载信息
     def load_coco(anno_file, xml_save_path):
-        if os.path.exists(xml_save_path):
-            shutil.rmtree(xml_save_path)
-        os.makedirs(xml_save_path)
+        # if os.path.exists(xml_save_path):
+        #     shutil.rmtree(xml_save_path)
+        if not os.path.exists(xml_save_path):
+            os.makedirs(xml_save_path)  
 
         coco = COCO(anno_file)
         classes = catid2name(coco)
         imgIds = coco.getImgIds()
         classesIds = coco.getCatIds()
-        for imgId in tqdm(imgIds):
+        for imgId in imgIds:
             size = {}
             img = coco.loadImgs(imgId)[0]
             filename = img['file_name']

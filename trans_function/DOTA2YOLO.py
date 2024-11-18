@@ -21,10 +21,8 @@ import os.path as osp
 import shutil
 from pathlib import Path
 
-import cv2
 import numpy as np
 from PIL import Image
-from tqdm import tqdm
 
 global IMG_FORMATS
 
@@ -168,14 +166,14 @@ def DOTA2YOLO(dataset_dir,output_folder):
 
     save_dir = osp.join(output_folder, 'labels')
     save_image_dir = osp.join(output_folder, 'images')
-    if os.path.exists(save_dir):
+    if not os.path.exists(save_dir):
         logging.info(f"remove outdate directory {save_dir}...")
-        shutil.rmtree(save_dir)
-    os.makedirs(save_dir)
+        # shutil.rmtree(save_dir)
+        os.makedirs(save_dir)
 
     shutil.copy(class_filepath, output_folder)
 
-    for label_file in tqdm(label_files, total=len(label_files)):
+    for label_file in label_files:
         out_file = osp.join(save_dir, Path(label_file).name)
         # 在图片文件夹中寻找相同文件名称的图片文件
         file_basename = get_path_basename(label_file)

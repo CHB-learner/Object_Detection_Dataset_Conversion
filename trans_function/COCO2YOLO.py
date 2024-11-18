@@ -1,9 +1,7 @@
 from pycocotools.coco import COCO
 import os
 import shutil
-from tqdm import tqdm
-import sys
-import argparse
+
 global images_nums,category_nums,bbox_nums
 
 images_nums = 0
@@ -42,9 +40,9 @@ def COCO2YOLO(input_folder, output_folder):
 
     # 利用cocoAPI从json中加载信息
     def load_coco(anno_file, xml_save_path):
-        if os.path.exists(xml_save_path):
-            shutil.rmtree(xml_save_path)
-        os.makedirs(xml_save_path)
+        if not os.path.exists(xml_save_path):
+            # shutil.rmtree(xml_save_path)
+            os.makedirs(xml_save_path)
 
         coco = COCO(anno_file)
         classes = catid2name(coco)
@@ -55,7 +53,7 @@ def COCO2YOLO(input_folder, output_folder):
             for id in classesIds:
                 f.write("{}\n".format(classes[id]))
 
-        for imgId in tqdm(imgIds):
+        for imgId in imgIds:
             info = {}
             img = coco.loadImgs(imgId)[0]
             filename = img['file_name']
@@ -83,9 +81,9 @@ def COCO2YOLO(input_folder, output_folder):
 
     def parseJsonFile(json_path, txt_save_path):
         assert os.path.exists(json_path), "json path:{} does not exists".format(json_path)
-        if os.path.exists(txt_save_path):
-            shutil.rmtree(txt_save_path)
-        os.makedirs(txt_save_path)
+        if not os.path.exists(txt_save_path):
+            # shutil.rmtree(txt_save_path)
+            os.makedirs(txt_save_path)
 
         assert json_path.endswith('json'), "json file:{} It is not json file!".format(json_path)
 

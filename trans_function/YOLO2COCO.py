@@ -1,8 +1,6 @@
 import os
-import argparse
 import json
 import os
-import sys
 import shutil   
 from datetime import datetime
 
@@ -98,9 +96,13 @@ def YOLO2COCO(input_folder, output_folder):
     def parseXmlFilse(image_path, anno_path, save_path, json_name='annotation.json'):
         assert os.path.exists(image_path), "ERROR {} dose not exists".format(image_path)
         assert os.path.exists(anno_path), "ERROR {} dose not exists".format(anno_path)
-        if os.path.exists(save_path):
-            shutil.rmtree(save_path)
-        os.makedirs(save_path)
+        
+        # if os.path.exists(save_path):
+        #     shutil.rmtree(save_path)
+
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+
         json_path = os.path.join(save_path, 'annotation',json_name)
 
         category_set = []

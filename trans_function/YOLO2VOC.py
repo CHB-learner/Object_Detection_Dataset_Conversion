@@ -1,13 +1,10 @@
-import argparse
 import os
-import sys
 import shutil
 
 import cv2
 from lxml import etree, objectify
 
 # 将标签信息写入xml
-from tqdm import tqdm
 
 
 global images_nums,category_nums,bbox_nums
@@ -74,9 +71,9 @@ def YOLO2VOC(input_folder, output_folder):
         global images_nums, category_nums, bbox_nums
         assert os.path.exists(image_path), "ERROR {} dose not exists".format(image_path)
         assert os.path.exists(anno_path), "ERROR {} dose not exists".format(anno_path)
-        if os.path.exists(save_path):
-            shutil.rmtree(save_path)
-        os.makedirs(save_path)
+        if not os.path.exists(save_path):
+            # shutil.rmtree(save_path)
+            os.makedirs(save_path)
 
         category_set = []
         with open(input_folder + '/classes.txt', 'r') as f:
@@ -90,7 +87,7 @@ def YOLO2VOC(input_folder, output_folder):
         images_index = dict((v.split(os.sep)[-1][:-4], k) for k, v in enumerate(images))
         images_nums = len(images)
 
-        for file in tqdm(files):
+        for file in files:
             if os.path.splitext(file)[-1] != '.txt' or 'classes' in file.split(os.sep)[-1]:
                 continue
             if file.split(os.sep)[-1][:-4] in images_index:

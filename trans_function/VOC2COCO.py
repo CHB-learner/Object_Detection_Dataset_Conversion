@@ -2,8 +2,7 @@ import xml.etree.ElementTree as ET
 import os
 import json
 from datetime import datetime
-import sys
-import argparse
+
 import shutil
 
 global coco,category_set,image_set,category_item_id,image_id,annotation_id
