@@ -43,8 +43,12 @@ def COCO_SPLIT(input_dir,output_dir,train,val,test):
     # 划分数据集
     train_images = images[:num_train]
     val_images = images[num_train:num_train + num_val]
-    test_images = images[num_train + num_val:]
-    
+    if test_ratio != 0.0 or test_ratio != 0:
+        test_images = images[num_train + num_val:]
+    else:
+        test_images = False
+
+
     # 分别为训练集、验证集和测试集创建子文件夹
     train_folder = os.path.join(output_root, "train")
     val_folder = os.path.join(output_root, "val")
@@ -60,8 +64,9 @@ def COCO_SPLIT(input_dir,output_dir,train,val,test):
     for img in val_images:
         shutil.copy(os.path.join(images_folder, img["file_name"]), os.path.join(val_folder, img["file_name"]))
     
-    for img in test_images:
-        shutil.copy(os.path.join(images_folder, img["file_name"]), os.path.join(test_folder, img["file_name"]))
+    if test_images != False:
+        for img in test_images:
+            shutil.copy(os.path.join(images_folder, img["file_name"]), os.path.join(test_folder, img["file_name"]))
     
     # 根据图片id分配annotations
     def filter_annotations(annotations, image_ids):
@@ -69,12 +74,14 @@ def COCO_SPLIT(input_dir,output_dir,train,val,test):
     
     train_ann = filter_annotations(annotations, [img["id"] for img in train_images])
     val_ann = filter_annotations(annotations, [img["id"] for img in val_images])
-    test_ann = filter_annotations(annotations, [img["id"] for img in test_images])
+    if test_images != False:
+        test_ann = filter_annotations(annotations, [img["id"] for img in test_images])
     
     # 生成train.json, val.json, test.json
     train_json = {"images": train_images, "annotations": train_ann, "categories": categories}
     val_json = {"images": val_images, "annotations": val_ann, "categories": categories}
-    test_json = {"images": test_images, "annotations": test_ann, "categories": categories}
+    if test_images != False:
+        test_json = {"images": test_images, "annotations": test_ann, "categories": categories}
     
     with open(os.path.join(output_root, "train.json"), "w") as f:
         json.dump(train_json, f)
@@ -82,8 +89,9 @@ def COCO_SPLIT(input_dir,output_dir,train,val,test):
     with open(os.path.join(output_root, "val.json"), "w") as f:
         json.dump(val_json, f)
     
-    with open(os.path.join(output_root, "test.json"), "w") as f:
-        json.dump(test_json, f)
+    if test_images != False:
+        with open(os.path.join(output_root, "test.json"), "w") as f:
+            json.dump(test_json, f)
     
     print("数据集划分完成！")
 
