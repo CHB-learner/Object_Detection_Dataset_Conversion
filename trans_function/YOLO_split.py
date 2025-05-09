@@ -12,8 +12,10 @@ def YOLO_SPLIT(input_dir, output_dir, train, val, test):
     now = datetime.datetime.now()
     folder_name = now.strftime("%Y-%m-%d_%H-%M-%S")
     out_put_name = f'YOLO_{train}_{val}_{test}__{folder_name}'
-    output_dir = os.path.join(output_dir, out_put_name)
-    
+    output_root = os.path.join(output_dir, out_put_name)
+    os.makedirs(output_root, exist_ok=True)
+    output_dir = output_root
+
     shutil.copy(os.path.join(input_dir,'classes.txt'), output_dir)
 
     # 定义训练集、验证集和测试集比例
@@ -57,7 +59,7 @@ def YOLO_SPLIT(input_dir, output_dir, train, val, test):
         if i < train_count:
             output_image_dir = train_image_dir
             output_label_dir = train_label_dir
-        elif i < train_count + valid_count:
+        elif i < train_count + valid_count or test == 0 or test == 0.0:
             output_image_dir = valid_image_dir
             output_label_dir = valid_label_dir
         else:
@@ -81,5 +83,6 @@ if __name__ == '__main__':
     input_folder = './test_data/input/yolo/'
     output_folder = './test_data/output/'
     
-    YOLO_SPLIT(input_folder, output_folder, 0.5, 0.5, 0)
+    # YOLO_SPLIT(input_folder, output_folder, 0.5, 0.5, 0)
+    YOLO_SPLIT(input_folder, output_folder, 0.8, 0.2, 0)
 
